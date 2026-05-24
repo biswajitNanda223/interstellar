@@ -11,3 +11,4 @@ Applies to `scripts/`.
 - PowerShell scripts are first-class because this workspace is on Windows.
 - Bash scripts may mirror PowerShell behavior for Linux CI/dev machines.
 - Commit helper scripts must run checks before calling `git commit`.
+- GitHub repo creation scripts must not print tokens.

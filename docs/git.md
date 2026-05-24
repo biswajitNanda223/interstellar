@@ -15,7 +15,15 @@ This repo treats Git history like production surface area: small commits, clear 
 
 ## First Launch
 
-Create the GitHub repository first, then launch the local repo:
+Create the GitHub repository and push:
+
+```bash
+powershell -ExecutionPolicy Bypass -File ./scripts/create-github-repo.ps1 -Visibility public -Push
+```
+
+The script uses GitHub CLI when available. Without `gh`, set `GH_TOKEN` or `GITHUB_TOKEN` with repo scope.
+
+Manual path:
 
 ```bash
 powershell -ExecutionPolicy Bypass -File ./scripts/install-git-hooks.ps1

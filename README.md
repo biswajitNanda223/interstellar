@@ -54,6 +54,12 @@ Run checks for every workspace crate:
 powershell -ExecutionPolicy Bypass -File ./scripts/check.ps1
 ```
 
+Create GitHub repo and push:
+
+```bash
+powershell -ExecutionPolicy Bypass -File ./scripts/create-github-repo.ps1 -Visibility public -Push
+```
+
 Run one app locally:
 
 ```bash

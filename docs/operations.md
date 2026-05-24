@@ -12,6 +12,14 @@ powershell -ExecutionPolicy Bypass -File ./scripts/bootstrap-env.ps1
 
 The generated `.env` contains a local random Postgres password and is ignored by Git.
 
+## GitHub Repo
+
+Create the remote repository and push `main`:
+
+```bash
+powershell -ExecutionPolicy Bypass -File ./scripts/create-github-repo.ps1 -Visibility public -Push
+```
+
 ## Rust Checks
 
 ```bash
