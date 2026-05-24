@@ -1,0 +1,16 @@
+# <type>(optional-scope): <short summary>
+#
+# Examples:
+# feat(careerforge): add project search endpoint
+# fix(task-manager): validate task title
+# docs: update postgres operations
+# chore(ci): add image build check
+#
+# Allowed types:
+# feat, fix, docs, chore, refactor, test, ci, build, perf, security, revert
+#
+# Rules:
+# - subject line <= 72 chars
+# - imperative mood
+# - no trailing period
+

@@ -1,0 +1,18 @@
+[Unit]
+Description=CareerForge API
+After=network-online.target
+Wants=network-online.target
+
+[Container]
+Image=localhost/careerforge-api:latest
+ContainerName=careerforge-api
+PublishPort=8080:8080
+EnvironmentFile=%h/.config/careerforge-api/podman.env
+AutoUpdate=local
+
+[Service]
+Restart=always
+TimeoutStartSec=60
+
+[Install]
+WantedBy=default.target

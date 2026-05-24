@@ -1,0 +1,15 @@
+target
+**/target
+.git
+.github
+.env
+**/.env
+*.env
+!*.env.example
+secrets
+data
+*.dump
+*.bak
+*.log
+README.md
+docs

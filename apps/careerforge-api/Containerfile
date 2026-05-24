@@ -1,0 +1,36 @@
+FROM docker.io/library/rust:1.95-trixie AS builder
+
+WORKDIR /workspace
+
+COPY Cargo.toml Cargo.lock rust-toolchain.toml ./
+COPY apps/careerforge-api/Cargo.toml apps/careerforge-api/Cargo.toml
+COPY apps/task-manager-api/Cargo.toml apps/task-manager-api/Cargo.toml
+RUN mkdir -p apps/careerforge-api/src apps/task-manager-api/src \
+    && printf 'fn main() {}\n' > apps/careerforge-api/src/main.rs \
+    && printf 'fn main() {}\n' > apps/task-manager-api/src/main.rs \
+    && cargo build --release -p careerforge-api \
+    && rm -rf apps/careerforge-api/src apps/task-manager-api/src
+
+COPY apps/careerforge-api/src apps/careerforge-api/src
+RUN touch apps/careerforge-api/src/main.rs && cargo build --release -p careerforge-api
+
+FROM docker.io/library/debian:trixie-slim AS runtime
+
+ENV DEBIAN_FRONTEND=noninteractive
+WORKDIR /app
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN useradd --create-home --uid 10001 appuser
+COPY --from=builder /workspace/target/release/careerforge-api /app/careerforge-api
+
+ENV PORT=8080 \
+    RUST_LOG=info
+
+EXPOSE 8080
+USER appuser
+
+HEALTHCHECK --interval=10s --timeout=3s --retries=3 CMD ["/app/careerforge-api", "--healthcheck"]
+CMD ["/app/careerforge-api"]

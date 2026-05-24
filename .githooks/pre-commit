@@ -1,0 +1,22 @@
+#!/usr/bin/env sh
+set -eu
+
+repo_root="$(git rev-parse --show-toplevel)"
+cd "$repo_root"
+
+echo "pre-commit: checking for staged secrets"
+if git diff --cached --name-only | grep -E '(^|/)(\.env|podman\.env)$|secrets/|\.dump$|\.bak$|\.db$|\.sqlite3?$' >/dev/null; then
+  echo "pre-commit: refusing to commit secret/database/generated files" >&2
+  git diff --cached --name-only | grep -E '(^|/)(\.env|podman\.env)$|secrets/|\.dump$|\.bak$|\.db$|\.sqlite3?$' >&2
+  exit 1
+fi
+
+echo "pre-commit: running Rust checks"
+if command -v powershell.exe >/dev/null 2>&1; then
+  powershell.exe -ExecutionPolicy Bypass -File ./scripts/check.ps1
+elif command -v powershell >/dev/null 2>&1; then
+  powershell -ExecutionPolicy Bypass -File ./scripts/check.ps1
+else
+  ./scripts/check.sh
+fi
+

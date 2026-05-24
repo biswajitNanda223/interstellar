@@ -1,0 +1,34 @@
+#!/usr/bin/env sh
+set -eu
+
+message_file="$1"
+subject="$(sed -n '1p' "$message_file")"
+
+case "$subject" in
+  ""|\#*) echo "commit-msg: missing commit subject" >&2; exit 1 ;;
+esac
+
+subject_len="$(printf "%s" "$subject" | wc -c | tr -d ' ')"
+if [ "$subject_len" -gt 72 ]; then
+  echo "commit-msg: subject too long (${subject_len}/72)" >&2
+  exit 1
+fi
+
+if printf "%s" "$subject" | grep -Eq '^(feat|fix|docs|chore|refactor|test|ci|build|perf|security|revert)(\([a-z0-9._-]+\))?!?: .+'; then
+  exit 0
+fi
+
+cat >&2 <<'EOF'
+commit-msg: use Conventional Commits.
+
+Examples:
+  feat(careerforge): add project search endpoint
+  fix(task-manager): validate task title
+  docs: update postgres operations
+  chore(ci): add image build check
+
+Allowed types:
+  feat, fix, docs, chore, refactor, test, ci, build, perf, security, revert
+EOF
+exit 1
+

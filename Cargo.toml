@@ -1,0 +1,15 @@
+[workspace]
+members = [
+    "apps/careerforge-api",
+    "apps/task-manager-api",
+]
+resolver = "2"
+
+[workspace.package]
+edition = "2024"
+rust-version = "1.95"
+license = "MIT"
+
+[workspace.lints.rust]
+unsafe_code = "forbid"
+

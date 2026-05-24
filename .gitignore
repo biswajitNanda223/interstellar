@@ -1,0 +1,27 @@
+/target/
+**/target/
+/.env
+**/.env
+*.env
+!*.env.example
+**/podman.env
+!**/podman.env.example
+secrets/
+data/
+*.sqlite
+*.sqlite3
+*.db
+*.dump
+*.bak
+*.log
+*.tmp
+
+# Local editor and OS noise
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store
+
+# Container runtime state
+*.pid
+*.sock
